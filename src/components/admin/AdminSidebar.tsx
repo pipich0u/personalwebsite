@@ -11,6 +11,7 @@ import {
   Settings,
   LogOut,
   ExternalLink,
+  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,7 @@ const navItems = [
   { href: "/admin/posts", label: "文章管理", icon: FileText },
   { href: "/admin/categories", label: "分类管理", icon: FolderOpen },
   { href: "/admin/media", label: "媒体管理", icon: Image },
+  { href: "/admin/about", label: "关于我", icon: User },
   { href: "/admin/settings", label: "站点设置", icon: Settings },
 ];
 

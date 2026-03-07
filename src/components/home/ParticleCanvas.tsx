@@ -32,14 +32,14 @@ export function ParticleCanvas() {
     };
 
     const createParticles = () => {
-      const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+      const count = Math.min(70, Math.floor((canvas.width * canvas.height) / 18000));
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        radius: Math.random() * 1.5 + 0.5,
-        opacity: Math.random() * 0.5 + 0.2,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 1.2 + 0.4,
+        opacity: Math.random() * 0.35 + 0.1,
       }));
     };
 
@@ -56,7 +56,7 @@ export function ParticleCanvas() {
         const dx = mouseRef.current.x - p.x;
         const dy = mouseRef.current.y - p.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < mouseRadius) {
+        if (dist < mouseRadius && dist > 0) {
           const force = (mouseRadius - dist) / mouseRadius;
           p.vx -= (dx / dist) * force * 0.02;
           p.vy -= (dy / dist) * force * 0.02;
@@ -65,9 +65,13 @@ export function ParticleCanvas() {
         p.vx *= 0.99;
         p.vy *= 0.99;
 
+        // darken near mouse
+        const proximity = dist < mouseRadius ? 1 + (1 - dist / mouseRadius) * 1.2 : 1;
+        const opacity = Math.min(p.opacity * proximity, 0.7);
+
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(150, 150, 180, ${p.opacity})`;
+        ctx.fillStyle = `rgba(80, 90, 120, ${opacity})`;
         ctx.fill();
       }
 
@@ -77,11 +81,11 @@ export function ParticleCanvas() {
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < connectionDistance) {
-            const alpha = (1 - dist / connectionDistance) * 0.15;
+            const alpha = (1 - dist / connectionDistance) * 0.12;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(150, 150, 180, ${alpha})`;
+            ctx.strokeStyle = `rgba(100, 110, 150, ${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }

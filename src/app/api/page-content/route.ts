@@ -4,10 +4,10 @@ import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 export async function GET() {
-  const settings = await prisma.siteSetting.findMany();
+  const contents = await prisma.pageContent.findMany();
   const map: Record<string, string> = {};
-  for (const s of settings) {
-    map[s.key] = s.value;
+  for (const c of contents) {
+    map[c.pageKey] = c.content;
   }
   return NextResponse.json(map);
 }
@@ -20,11 +20,11 @@ export async function PUT(request: NextRequest) {
 
   const body = await request.json();
 
-  for (const [key, value] of Object.entries(body)) {
-    await prisma.siteSetting.upsert({
-      where: { key },
-      update: { value: value as string },
-      create: { key, value: value as string },
+  for (const [pageKey, content] of Object.entries(body)) {
+    await prisma.pageContent.upsert({
+      where: { pageKey },
+      update: { content: content as string },
+      create: { pageKey, content: content as string },
     });
   }
 

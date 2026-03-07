@@ -36,6 +36,7 @@ export function PostEditor({ content, onChange }: PostEditorProps) {
       Placeholder.configure({ placeholder: "开始写作..." }),
     ],
     content,
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },

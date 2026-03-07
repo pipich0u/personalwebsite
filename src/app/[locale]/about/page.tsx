@@ -4,6 +4,7 @@ import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import Image from "next/image";
 import { Mail, Github } from "lucide-react";
 import type { Metadata } from "next";
+import { WechatQrButton } from "@/components/about/WechatQrButton";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -12,69 +13,68 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function getPageContent(key: string): Promise<string> {
-  const content = await prisma.pageContent.findUnique({
-    where: { pageKey: key },
-  });
-  return content?.content || "";
-}
-
 export default async function AboutPage() {
   const locale = await getLocale();
   const t = await getTranslations("about");
 
-  const bioKey = locale === "en" ? "about_bio_en" : "about_bio";
-  const bio = await getPageContent(bioKey);
-  const avatar = await getPageContent("about_avatar");
+  const contents = await prisma.pageContent.findMany();
+  const pc: Record<string, string> = {};
+  for (const c of contents) {
+    pc[c.pageKey] = c.content;
+  }
+
+  const bio = locale === "en" ? (pc.about_bio_en || pc.about_bio) : pc.about_bio;
+  const avatar = pc.about_avatar;
+  const email = pc.contact_email;
+  const github = pc.contact_github;
+  const wechatQr = pc.contact_wechat_qr;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
+    <div className="mx-auto max-w-3xl px-6 py-20">
+
+      {/* 头像 + 简介 */}
       <AnimatedSection>
-        <h1 className="mb-12 text-3xl font-bold">{t("title")}</h1>
+        <div className="flex flex-col items-center gap-10 sm:flex-row sm:items-start sm:gap-14">
+          {avatar && (
+            <div className="relative h-56 w-56 shrink-0 overflow-hidden rounded-2xl border border-border/60">
+              <Image src={avatar} alt="avatar" fill className="object-cover" sizes="224px" />
+            </div>
+          )}
+          <div className="flex flex-col justify-center text-center sm:text-left">
+            <h1 className="mb-4 text-3xl font-bold">{t("title")}</h1>
+            <p className="text-base leading-8 text-muted-foreground">{bio}</p>
+          </div>
+        </div>
       </AnimatedSection>
 
-      <div className="grid gap-12 md:grid-cols-[200px_1fr]">
-        <AnimatedSection direction="left">
-          <div className="relative mx-auto h-48 w-48 overflow-hidden rounded-full border-4 border-border/50 md:mx-0">
-            <Image
-              src={avatar || "/uploads/avatar.jpg"}
-              alt="范遥"
-              fill
-              className="object-cover"
-              sizes="192px"
-            />
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection direction="right" delay={0.1}>
-          <div className="prose prose-neutral dark:prose-invert">
-            <p className="text-lg leading-relaxed text-muted-foreground">
-              {bio}
-            </p>
-          </div>
-        </AnimatedSection>
-      </div>
-
-      <AnimatedSection delay={0.3}>
-        <div className="mt-16">
-          <h2 className="mb-6 text-xl font-semibold">{t("contact")}</h2>
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="mailto:admin@fanyao.com"
-              className="flex items-center gap-2 rounded-lg border border-border/50 px-4 py-3 text-sm text-muted-foreground transition-colors hover:border-border hover:text-foreground"
-            >
-              <Mail className="h-5 w-5" />
-              admin@fanyao.com
-            </a>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-lg border border-border/50 px-4 py-3 text-sm text-muted-foreground transition-colors hover:border-border hover:text-foreground"
-            >
-              <Github className="h-5 w-5" />
-              GitHub
-            </a>
+      {/* 联系方式 */}
+      <AnimatedSection delay={0.2}>
+        <div className="mt-16 border-t border-border/50 pt-12">
+          <p className="mb-6 text-xs font-medium uppercase tracking-widest text-muted-foreground/50">
+            {t("contact")}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {email && (
+              <a
+                href={`mailto:${email}`}
+                className="flex items-center gap-2.5 rounded-xl border border-border/50 bg-muted/30 px-5 py-3 text-sm text-muted-foreground transition-all hover:border-border hover:bg-muted hover:text-foreground"
+              >
+                <Mail className="h-4 w-4 shrink-0" />
+                <span>{email}</span>
+              </a>
+            )}
+            {github && (
+              <a
+                href={github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 rounded-xl border border-border/50 bg-muted/30 px-5 py-3 text-sm text-muted-foreground transition-all hover:border-border hover:bg-muted hover:text-foreground"
+              >
+                <Github className="h-4 w-4 shrink-0" />
+                <span>GitHub</span>
+              </a>
+            )}
+            {wechatQr && <WechatQrButton qrUrl={wechatQr} label={t("wechat")} />}
           </div>
         </div>
       </AnimatedSection>
