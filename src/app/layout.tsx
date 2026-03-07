@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { prisma } from "@/lib/prisma";
+import { Oneko } from "@/components/Oneko";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await prisma.siteSetting.findMany();
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html suppressHydrationWarning>
       <body className="font-sans antialiased">
         {children}
+        <Oneko />
       </body>
     </html>
   );
