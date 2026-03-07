@@ -1,0 +1,30 @@
+{
+  "nav": {
+    "home": "首页",
+    "blog": "博客",
+    "about": "关于我"
+  },
+  "home": {
+    "slogan": "欢迎来到范遥的个人空间",
+    "subtitle": "探索 · 记录 · 分享",
+    "scrollDown": "向下滚动"
+  },
+  "blog": {
+    "title": "博客",
+    "all": "全部",
+    "readMore": "阅读更多",
+    "noPosts": "暂无文章",
+    "publishedAt": "发布于",
+    "views": "阅读"
+  },
+  "about": {
+    "title": "关于我",
+    "contact": "联系方式",
+    "wechat": "微信"
+  },
+  "common": {
+    "language": "EN",
+    "backToHome": "返回首页",
+    "loading": "加载中..."
+  }
+}

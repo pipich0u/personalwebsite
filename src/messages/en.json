@@ -1,0 +1,30 @@
+{
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "about": "About"
+  },
+  "home": {
+    "slogan": "Welcome to Fan Yao's Space",
+    "subtitle": "Explore · Record · Share",
+    "scrollDown": "Scroll Down"
+  },
+  "blog": {
+    "title": "Blog",
+    "all": "All",
+    "readMore": "Read More",
+    "noPosts": "No posts yet",
+    "publishedAt": "Published at",
+    "views": "views"
+  },
+  "about": {
+    "title": "About Me",
+    "contact": "Contact",
+    "wechat": "WeChat"
+  },
+  "common": {
+    "language": "中文",
+    "backToHome": "Back to Home",
+    "loading": "Loading..."
+  }
+}
