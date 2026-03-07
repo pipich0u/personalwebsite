@@ -34,35 +34,40 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await request.json();
-  const { title, titleEn, slug, content, contentEn, excerpt, excerptEn, coverImage, categoryId, tags, status } = body;
+  try {
+    const body = await request.json();
+    const { title, titleEn, slug, content, contentEn, excerpt, excerptEn, coverImage, categoryId, tags, status } = body;
 
-  if (!title || !slug || !content) {
-    return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    if (!title || !slug || !content) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const existing = await prisma.post.findUnique({ where: { slug } });
+    if (existing) {
+      return NextResponse.json({ error: "Slug already exists" }, { status: 409 });
+    }
+
+    const post = await prisma.post.create({
+      data: {
+        title,
+        titleEn: titleEn || null,
+        slug,
+        content,
+        contentEn: contentEn || null,
+        excerpt: excerpt || null,
+        excerptEn: excerptEn || null,
+        coverImage: coverImage || null,
+        categoryId: categoryId || null,
+        tags: tags || null,
+        status: status || "draft",
+        publishedAt: status === "published" ? new Date() : null,
+      },
+      include: { category: true },
+    });
+
+    return NextResponse.json(post, { status: 201 });
+  } catch (error) {
+    console.error("Error creating post:", error);
+    return NextResponse.json({ error: "Failed to create post" }, { status: 500 });
   }
-
-  const existing = await prisma.post.findUnique({ where: { slug } });
-  if (existing) {
-    return NextResponse.json({ error: "Slug already exists" }, { status: 409 });
-  }
-
-  const post = await prisma.post.create({
-    data: {
-      title,
-      titleEn,
-      slug,
-      content,
-      contentEn,
-      excerpt,
-      excerptEn,
-      coverImage,
-      categoryId,
-      tags,
-      status: status || "draft",
-      publishedAt: status === "published" ? new Date() : null,
-    },
-    include: { category: true },
-  });
-
-  return NextResponse.json(post, { status: 201 });
 }

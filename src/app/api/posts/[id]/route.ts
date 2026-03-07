@@ -29,25 +29,45 @@ export async function PUT(
   }
 
   const { id } = await params;
-  const body = await request.json();
 
   const existing = await prisma.post.findUnique({ where: { id } });
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  // Set publishedAt when first publishing
-  if (body.status === "published" && existing.status !== "published" && !body.publishedAt) {
-    body.publishedAt = new Date();
+  try {
+    const body = await request.json();
+
+    // Clean empty strings to null for optional fields
+    const data: Record<string, unknown> = {};
+    if (body.title !== undefined) data.title = body.title;
+    if (body.titleEn !== undefined) data.titleEn = body.titleEn || null;
+    if (body.slug !== undefined) data.slug = body.slug;
+    if (body.content !== undefined) data.content = body.content;
+    if (body.contentEn !== undefined) data.contentEn = body.contentEn || null;
+    if (body.excerpt !== undefined) data.excerpt = body.excerpt || null;
+    if (body.excerptEn !== undefined) data.excerptEn = body.excerptEn || null;
+    if (body.coverImage !== undefined) data.coverImage = body.coverImage || null;
+    if (body.categoryId !== undefined) data.categoryId = body.categoryId || null;
+    if (body.tags !== undefined) data.tags = body.tags || null;
+    if (body.status !== undefined) data.status = body.status;
+
+    // Set publishedAt when first publishing
+    if (body.status === "published" && existing.status !== "published") {
+      data.publishedAt = new Date();
+    }
+
+    const post = await prisma.post.update({
+      where: { id },
+      data,
+      include: { category: true },
+    });
+
+    return NextResponse.json(post);
+  } catch (error) {
+    console.error("Error updating post:", error);
+    return NextResponse.json({ error: "Failed to update post" }, { status: 500 });
   }
-
-  const post = await prisma.post.update({
-    where: { id },
-    data: body,
-    include: { category: true },
-  });
-
-  return NextResponse.json(post);
 }
 
 export async function DELETE(

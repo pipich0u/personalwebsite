@@ -58,13 +58,19 @@ export default function NewPostPage() {
   };
 
   const handleSubmit = async (status: string) => {
-    if (!form.title || !form.content) {
-      toast.error("标题和内容不能为空");
+    if (!form.title) {
+      toast.error("标题不能为空");
+      return;
+    }
+    // Tiptap returns <p></p> for empty content
+    const contentEmpty = !form.content || form.content === "<p></p>";
+    if (contentEmpty) {
+      toast.error("内容不能为空");
       return;
     }
 
     setSaving(true);
-    const slug = form.slug || generateSlug(form.title);
+    const slug = form.slug || generateSlug(form.title) || `post-${Date.now()}`;
 
     const res = await fetch("/api/posts", {
       method: "POST",
