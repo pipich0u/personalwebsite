@@ -12,13 +12,13 @@ export function Footer() {
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="p-2 text-muted-foreground transition-colors hover:text-foreground"
           >
             <Github className="h-5 w-5" />
           </a>
           <a
             href="mailto:admin@fanyao.com"
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="p-2 text-muted-foreground transition-colors hover:text-foreground"
           >
             <Mail className="h-5 w-5" />
           </a>

@@ -28,17 +28,17 @@ export function WechatQrButton({ qrUrl, label }: WechatQrButtonProps) {
           onClick={() => setOpen(false)}
         >
           <div
-            className="relative rounded-2xl bg-background p-6 shadow-xl"
+            className="relative rounded-2xl bg-background p-4 shadow-xl sm:p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setOpen(false)}
-              className="absolute right-3 top-3 rounded-full p-1 text-muted-foreground hover:text-foreground"
+              className="absolute right-2 top-2 rounded-full p-2 text-muted-foreground hover:text-foreground"
             >
-              <X className="h-4 w-4" />
+              <X className="h-5 w-5" />
             </button>
             <p className="mb-4 text-center text-sm font-medium">{label}</p>
-            <div className="relative h-52 w-52">
+            <div className="relative h-44 w-44 sm:h-52 sm:w-52">
               <Image src={qrUrl} alt="WeChat QR" fill className="object-contain" sizes="208px" />
             </div>
           </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { prisma } from "@/lib/prisma";
 import { Oneko } from "@/components/Oneko";
+import { ChatAssistant } from "@/components/ChatAssistant";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await prisma.siteSetting.findMany();
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         {children}
         <Oneko />
+        <ChatAssistant />
       </body>
     </html>
   );

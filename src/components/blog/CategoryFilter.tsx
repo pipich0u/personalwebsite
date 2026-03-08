@@ -34,7 +34,8 @@ export function CategoryFilter({ categories }: CategoryFilterProps) {
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="-mx-1 flex overflow-x-auto pb-1 scrollbar-none sm:flex-wrap sm:overflow-visible sm:pb-0">
+      <div className="flex gap-1 px-1 sm:flex-wrap sm:gap-2">
       <Button
         variant="ghost"
         size="sm"
@@ -64,6 +65,7 @@ export function CategoryFilter({ categories }: CategoryFilterProps) {
           </Button>
         );
       })}
+      </div>
     </div>
   );
 }

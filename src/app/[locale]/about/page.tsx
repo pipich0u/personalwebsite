@@ -30,30 +30,30 @@ export default async function AboutPage() {
   const wechatQr = pc.contact_wechat_qr;
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-20">
+    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-20">
 
       {/* 头像 + 简介 */}
       <AnimatedSection>
         <div className="flex flex-col items-center gap-10 sm:flex-row sm:items-start sm:gap-14">
           {avatar && (
-            <div className="relative h-56 w-56 shrink-0 overflow-hidden rounded-2xl border border-border/60">
-              <Image src={avatar} alt="avatar" fill className="object-cover" sizes="224px" />
+            <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-2xl border border-border/60 sm:h-56 sm:w-56">
+              <Image src={avatar} alt="avatar" fill className="object-cover" sizes="(max-width: 640px) 160px, 224px" />
             </div>
           )}
           <div className="flex flex-col justify-center text-center sm:text-left">
-            <h1 className="mb-4 text-3xl font-bold">{t("title")}</h1>
-            <p className="text-base leading-8 text-muted-foreground">{bio}</p>
+            <h1 className="mb-4 text-2xl font-bold sm:text-3xl">{t("title")}</h1>
+            <p className="text-sm leading-7 text-muted-foreground sm:text-base sm:leading-8">{bio}</p>
           </div>
         </div>
       </AnimatedSection>
 
       {/* 联系方式 */}
       <AnimatedSection delay={0.2}>
-        <div className="mt-16 border-t border-border/50 pt-12">
+        <div className="mt-10 border-t border-border/50 pt-8 sm:mt-16 sm:pt-12">
           <p className="mb-6 text-xs font-medium uppercase tracking-widest text-muted-foreground/50">
             {t("contact")}
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             {email && (
               <a
                 href={`mailto:${email}`}

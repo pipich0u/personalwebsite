@@ -15,6 +15,9 @@ export function Oneko() {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (isReducedMotion) return;
 
+    const isMobile = window.matchMedia("(max-width: 768px)").matches || "ontouchstart" in window;
+    if (isMobile) return;
+
     const el = document.createElement("div");
     el.setAttribute("aria-hidden", "true");
     Object.assign(el.style, {

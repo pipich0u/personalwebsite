@@ -35,9 +35,9 @@ export default async function BlogPage({
   });
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:py-12">
       <AnimatedSection>
-        <h1 className="mb-8 text-3xl font-bold">{t("title")}</h1>
+        <h1 className="mb-8 text-2xl font-bold sm:text-3xl">{t("title")}</h1>
       </AnimatedSection>
 
       <AnimatedSection delay={0.1}>

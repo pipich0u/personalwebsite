@@ -47,7 +47,7 @@ export function HeroSection({ slogan, subtitle }: HeroSectionProps) {
       {/* Ambient gradient orbs */}
       <div className="pointer-events-none absolute inset-0">
         <motion.div
-          className="absolute h-[900px] w-[900px] rounded-full blur-[120px]"
+          className="absolute h-[400px] w-[400px] rounded-full blur-[80px] sm:h-[600px] sm:w-[600px] sm:blur-[100px] md:h-[900px] md:w-[900px] md:blur-[120px]"
           style={{
             background: "radial-gradient(circle, rgba(199,210,254,0.45) 0%, transparent 70%)",
             top: "-20%", left: "-10%",
@@ -56,7 +56,7 @@ export function HeroSection({ slogan, subtitle }: HeroSectionProps) {
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute h-[700px] w-[700px] rounded-full blur-[100px]"
+          className="absolute h-[300px] w-[300px] rounded-full blur-[60px] sm:h-[500px] sm:w-[500px] sm:blur-[80px] md:h-[700px] md:w-[700px] md:blur-[100px]"
           style={{
             background: "radial-gradient(circle, rgba(216,180,254,0.30) 0%, transparent 70%)",
             bottom: "-15%", right: "-5%",
@@ -65,7 +65,7 @@ export function HeroSection({ slogan, subtitle }: HeroSectionProps) {
           transition={{ duration: 28, repeat: Infinity, ease: "easeInOut", delay: 4 }}
         />
         <motion.div
-          className="absolute h-[500px] w-[500px] rounded-full blur-[80px]"
+          className="absolute h-[200px] w-[200px] rounded-full blur-[50px] sm:h-[350px] sm:w-[350px] sm:blur-[60px] md:h-[500px] md:w-[500px] md:blur-[80px]"
           style={{
             background: "radial-gradient(circle, rgba(165,214,255,0.25) 0%, transparent 70%)",
             top: "40%", left: "55%",
@@ -98,7 +98,7 @@ export function HeroSection({ slogan, subtitle }: HeroSectionProps) {
         </motion.div>
 
         {/* Main headline */}
-        <h1 className="mb-6 text-5xl font-bold tracking-tight sm:text-6xl md:text-[5.5rem] md:leading-[1.08]">
+        <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-[5.5rem] lg:leading-[1.08]">
           {displaySlogan.split("").map((char, i) => (
             <motion.span
               key={i}
