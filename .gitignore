@@ -51,3 +51,7 @@ next-env.d.ts
 # uploads
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+# Large video files
+public/hero-bg.mov
+public/hero-bg.mp4

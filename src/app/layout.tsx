@@ -3,6 +3,7 @@ import "./globals.css";
 import { prisma } from "@/lib/prisma";
 import { Oneko } from "@/components/Oneko";
 import { ChatAssistant } from "@/components/ChatAssistant";
+import { MouseTrail } from "@/components/effects/MouseTrail";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await prisma.siteSetting.findMany();
@@ -30,8 +31,15 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="font-sans antialiased">
         {children}
+        <MouseTrail />
         <Oneko />
         <ChatAssistant />
       </body>

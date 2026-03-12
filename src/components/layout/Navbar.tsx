@@ -18,6 +18,10 @@ export function Navbar({ locale }: NavbarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Hide navbar on homepage
+  const isHome = pathname === `/${locale}` || pathname === `/${locale}/`;
+  if (isHome) return null;
+
   const links = [
     { href: `/${locale}`, label: t("home") },
     { href: `/${locale}/blog`, label: t("blog") },
@@ -34,9 +38,9 @@ export function Navbar({ locale }: NavbarProps) {
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
         <Link
           href={`/${locale}`}
-          className="text-lg font-bold tracking-tight"
+          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
-          范遥
+          This is our personal website
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

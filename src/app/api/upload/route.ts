@@ -17,24 +17,28 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
   }
 
-  const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+  const imageTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+  const audioTypes = ["audio/mpeg", "audio/mp3", "audio/wav", "audio/ogg", "audio/aac", "audio/m4a", "audio/x-m4a"];
+  const allowedTypes = [...imageTypes, ...audioTypes];
   if (!allowedTypes.includes(file.type)) {
     return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
   }
 
-  if (file.size > 5 * 1024 * 1024) {
-    return NextResponse.json({ error: "File too large (max 5MB)" }, { status: 400 });
+  const maxSize = audioTypes.includes(file.type) ? 50 * 1024 * 1024 : 5 * 1024 * 1024;
+  if (file.size > maxSize) {
+    return NextResponse.json({ error: `File too large (max ${maxSize / 1024 / 1024}MB)` }, { status: 400 });
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
   const ext = file.name.split(".").pop() || "jpg";
   const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads", "blog");
+  const subDir = audioTypes.includes(file.type) ? "audio" : "blog";
+  const uploadDir = path.join(process.cwd(), "public", "uploads", subDir);
 
   await mkdir(uploadDir, { recursive: true });
   await writeFile(path.join(uploadDir, filename), buffer);
 
-  const url = `/uploads/blog/${filename}`;
+  const url = `/uploads/${subDir}/${filename}`;
 
   const media = await prisma.media.create({
     data: {
